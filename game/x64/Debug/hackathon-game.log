@@ -1,0 +1,5 @@
+﻿  FullGame.cpp
+c:\users\bryce\desktop\game\adventure-game\hackathon-game\tile.h(10): warning C4091: 'typedef ': ignored on left of 'Identifier' when no variable is declared
+c:\users\bryce\desktop\game\adventure-game\hackathon-game\person.h(9): warning C4091: 'typedef ': ignored on left of 'Direction' when no variable is declared
+  hackathon-game.vcxproj -> C:\Users\Bryce\Desktop\game\Adventure-Game\x64\Debug\hackathon-game.exe
+  hackathon-game.vcxproj -> C:\Users\Bryce\Desktop\game\Adventure-Game\x64\Debug\hackathon-game.pdb (Partial PDB)

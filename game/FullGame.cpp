@@ -7,9 +7,10 @@ FullGame::FullGame() {
 	window_display = nullptr;
 
 	temp_surface = nullptr;
-	master_surface = nullptr;
+	//map_surface = nullptr;
 	renderer = nullptr;
 	temp_texture = nullptr;
+	map_texture = nullptr;
 
 	error_log.open("error_log.txt");
 
@@ -26,6 +27,8 @@ FullGame::~FullGame() {
 }
 
 void FullGame::play_game() {
+	int frame_count = 0, frame_time = 0;
+
 	//render the map
 	Map myMap;
 	Player player1;
@@ -34,7 +37,14 @@ void FullGame::play_game() {
 	create_window();
 	create_renderer();
 
+	//generate the map
+	render_map(myMap);
+	//create_map_surface(myMap);
+	//SDL_RenderPresent(renderer);
+
 	while (running) {
+		++frame_count;
+		
 		int start_time = SDL_GetTicks();
 
 		//render map w/ player location
@@ -50,13 +60,28 @@ void FullGame::play_game() {
 			event_handler(&event, myMap, player1, start_time);
 
 		}
+
+		//log_framerate(frame_time, frame_count);
+
+		
 	}
+
+	//print framerate to error_log
+	log_framerate(frame_time, frame_count);
 
 	//cleanup
 	close();
 
 
 }
+
+//prints the current framerate to the output file
+void FullGame::log_framerate(int start_time, int frame_count) {
+	int delta_t = SDL_GetTicks() - start_time;
+	delta_t /= 1000; //convert to seconds from milliseconds
+	error_log << "The framerate is: " << (frame_count * 1.0 / delta_t) << std::endl;
+}
+
 
 void FullGame::event_handler(SDL_Event* Event, Map &map, Player &player, int start_time) {
 	//calculate time passed since last screen update
@@ -133,6 +158,12 @@ void FullGame::refresh_screen(Map &myMap, Player &player1) {
 	//render map
 	render_map(myMap);
 
+	//apply map to renderer
+	//create_map_surface(myMap);
+	//load_map();
+
+	//SDL_RenderPresent(renderer);
+
 	//render player based on pixel_location
 	render_player(player1);
 
@@ -141,7 +172,54 @@ void FullGame::refresh_screen(Map &myMap, Player &player1) {
 
 }
 
+//generates the map texture and assigns it to map_texture
+void FullGame::create_map_surface(Map &myMap) {
+	SDL_Rect dest_rect = { 0, 0, DISPLAY_TILE_SIZE, DISPLAY_TILE_SIZE };
+	SDL_Rect source_rect = { SOURCE_TILE_SIZE , SOURCE_TILE_SIZE , SOURCE_TILE_SIZE , SOURCE_TILE_SIZE };
 
+	//temp_surface = load_surface("tilemap_packed.png");
+
+	//blit every surface from the map parameter onto the final surface
+	for (int x = 0; x < WWIDTH / DISPLAY_TILE_SIZE; ++x) {
+		for (int y = 0; y < WHEIGHT / DISPLAY_TILE_SIZE; ++y) {
+
+			//determine which texture to apply via switch statement and adjust source_rect accordingly
+			determine_source_tile(x, y, myMap, source_rect);
+
+			//apply the current texture to the renderer
+			apply_texture_to_renderer(dest_rect, source_rect, "tilemap_packed.png");
+			
+
+			//blit surface onto master surface
+			//SDL_BlitSurface(temp_surface, &source_rect, map_surface, &dest_rect);
+
+			dest_rect.x += DISPLAY_TILE_SIZE;
+
+		}
+		dest_rect.y += DISPLAY_TILE_SIZE;
+		dest_rect.x = 0;
+	}
+
+
+
+	//turn that surface into a texture
+	//map_texture = SDL_CreateTextureFromSurface(renderer, map_surface);
+
+	//apply texture to renderer
+	//SDL_RenderCopy(renderer, temp_texture, NULL, NULL);
+
+	//display to screen
+	SDL_RenderPresent(renderer);
+
+	//free the previous surfaces, but keep map_texture for later
+	SDL_FreeSurface(temp_surface);
+	SDL_FreeSurface(map_surface);
+}
+
+//loads the map texture onto renderer
+void FullGame::load_map() {
+	SDL_RenderCopy(renderer, map_texture, NULL, NULL);
+}
 
 //test function that proves we are capable of loading .png files
 void FullGame::init_png_loading() {
@@ -160,10 +238,11 @@ void FullGame::close() {
 
 	//destroy any surface objects
 	SDL_FreeSurface(temp_surface);
-	SDL_FreeSurface(master_surface);
+	//SDL_FreeSurface(map_surface);
 
 	//destroy texture object
 	SDL_DestroyTexture(temp_texture);
+	SDL_DestroyTexture(map_texture);
 
 	//destroy renderer object
 	SDL_DestroyRenderer(renderer);

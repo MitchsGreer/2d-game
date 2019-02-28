@@ -21,6 +21,12 @@ public:
 
 	void FullGame::event_handler(SDL_Event* Event, Map &map, Player &player, int time_1);
 
+	void FullGame::log_framerate(int start_time, int frame_count);
+
+	void FullGame::load_map();
+
+	void FullGame::create_map_surface(Map &myMap);
+
 	//loads and retrns a given surface using the given relative path to the bmp
 	//postcondition: surface returned must be deallocated by program that calls it!
 	//string is const to allow passing string literals
@@ -78,8 +84,9 @@ private:
 
 	//texture object ptr
 	SDL_Texture * temp_texture;
+	SDL_Texture * map_texture;
 
 	//surfaces for textures (master_surface most useful for blitting)
 	SDL_Surface * temp_surface;
-	SDL_Surface * master_surface;
+	SDL_Surface * map_surface;
 };

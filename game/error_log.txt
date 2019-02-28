@@ -1,1 +1,2 @@
+The framerate is: 4.71429
 Successfully closed/cleaned file objects

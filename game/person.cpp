@@ -146,7 +146,7 @@
 			return true;
 		}
 		//moving down right
-		else if (direction == SOUTHEAST && y < 9 && x < 9 && map.get_passable(x + 1, y + 1))
+		else if (direction == SOUTHEAST )
 		{
 			this->set_x_pixel(x + pixel_change);
 			this->set_y_pixel(y + pixel_change);
@@ -155,7 +155,7 @@
 			return true;
 		}
 		//moving down left
-		else if (direction == SOUTHWEST && y < 9 && x > 0 && map.get_passable(x - 1, y + 1))
+		else if (direction == SOUTHWEST )
 		{
 			this->set_x_pixel(x - pixel_change);
 			this->set_y_pixel(y + pixel_change);
