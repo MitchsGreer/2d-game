@@ -68,13 +68,13 @@
             return true;
         }
         //moving right
-        else if(direction == EAST && y < Map_x_Max - 1  && map.get_passable(x + 1, y))
+        else if(direction == EAST && x < Map_x_Max - 1  && map.get_passable(x + 1, y))
         {
             this->player_location.setx(x + 1);
             return true;
         }
         //moving left
-        else if(direction == WEST && y > 0  && map.get_passable(x - 1, y))
+        else if(direction == WEST && x > 0  && map.get_passable(x - 1, y))
         {
             this->player_location.setx(x - 1);
             return true;
