@@ -13,7 +13,7 @@
 #define DISPLAY_TILE_SIZE 50
 
 //speed of player = number of pixels moved every frame, (tiles/sec = speed * framerate / display_tile_size)
-#define PLAYER_SPEED 1
+#define PLAYER_SPEED 0.25
 #define WALKING_ANIMATION_FRAMES 1
 
 #define WWIDTH 500

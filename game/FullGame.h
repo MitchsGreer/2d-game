@@ -13,11 +13,13 @@ public:
 	~FullGame();
 
 	//controls game flow
+	void play_game_old();
+
 	void play_game();
 
-	void game_loop();
+	void refresh_screen(Map &myMap, Player &player1);
 
-	void render_screen(Map &myMap);
+	void FullGame::event_handler(SDL_Event* Event, Map &map, Player &player, int time_1);
 
 	//loads and retrns a given surface using the given relative path to the bmp
 	//postcondition: surface returned must be deallocated by program that calls it!
@@ -36,7 +38,7 @@ public:
 	//allows us to generate a map and player initial starting point
 	void render_all_and_display(Map &myMap, Player &player);
 
-	void ender_player_motion_in_place(int frame, Map &myMap);
+	//void render_player_motion_in_place(int frame, Map &myMap);
 
 	//renders the player's screen facing default sprite at the player's current location
 	void render_player(Player &player);
@@ -51,9 +53,9 @@ public:
 	void init_png_loading();
 
 	//processes any given event
-	void process_event(SDL_Event* Event, Map * map, Player * player);
+	//void process_event(SDL_Event* Event, Map * map, Player * player);
 
-	void OnEvent(SDL_Event* Event, Map &map, Player &player);
+	void OnEvent_old(SDL_Event* Event, Map &map, Player &player);
 
 	//controls cleanup of all code (values etc)
 	void close();
