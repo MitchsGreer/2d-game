@@ -1,4 +1,4 @@
 rm a.out
-g++ main.cpp map.cpp person.cpp Coordinates.cpp tile.cpp FullGame.cpp `sdl2-config --cflags --libs` -w -lSDL2_image
+g++ main.cpp map.cpp person.cpp Coordinates.cpp tile.cpp FullGame.cpp -print-objc-runtime-info `sdl2-config --cflags --libs` -w -lSDL2_image
 ls -l a.out
 a.out
